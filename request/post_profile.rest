@@ -1,0 +1,11 @@
+POST http://localhost:3001/api/profiles
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNjUxMDQ5NDczYTlkZmIxZDhlYjA5MSIsInVzZXJuYW1lIjoiSG9yaWtpdGEiLCJpYXQiOjE2MzQwMTMyNTcsImV4cCI6MTYzNDA5OTY1N30.UoXU3V9XAdlHoJe9q28Xo4kzJ9ghoPrbfQL96DTcuCU
+
+{
+    "avatar":"aqui va la descripcion",
+    "description":"inserte su descripcion",
+    "country":"inserte su pais",
+    "favGame":"inserte su juego favorito",
+    "rankGame":"inserte su rango en el juego"
+}

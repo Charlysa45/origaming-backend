@@ -1,0 +1,7 @@
+PUT http://localhost:3001/api/profiles/6165105f473a9dfb1d8eb096
+Content-Type: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNTUxYjE4ZTY4MjVkMjlkYWI1YzAxYyIsInVzZXJuYW1lIjoiTWF0cmV4c2l0byIsImlhdCI6MTYzMjk2NzUwMiwiZXhwIjoxNjMzMDUzOTAyfQ.ih3XgIC8E5BIaThYy39XuZsAkvT0okqY12Vr1S45Ibw
+
+{
+    "avatar":"esta descripción está editada xd"
+}
