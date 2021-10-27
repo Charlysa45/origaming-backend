@@ -20,7 +20,7 @@ const app = express()
 const server = http.createServer(app)
 const io = socketio(server, {
   cors:{
-    origin: "http://localhost:3000",    
+    origin: "https://origaming-frontend.herokuapp.com",    
     methods: ["GET", "POST"],
     allowedHeaders: ["chat-header"],    
     credentials: true
@@ -70,10 +70,6 @@ app.use((request, response, next) => {
 app.get('/', (request, response) => {
   response.send('<h1>Hello World</h1>')
 })
-
-
-
-
 
 app.use(express.static(__dirname + '/public'));
 
