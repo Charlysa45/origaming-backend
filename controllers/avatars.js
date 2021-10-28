@@ -1,5 +1,12 @@
 const jwt = require('jsonwebtoken')
 const multer  = require('../libs/multer.js')
+const cloudinary = require('cloudinary')
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+})
+
 
 const avatarsRouter = require('express').Router()
 const Avatar = require('../models/Avatar')
@@ -79,8 +86,10 @@ avatarsRouter.route('/:id').put( multer.single('avatar'), async (request, respon
     const { id } = request.params
     const {avatar} = request.body
     console.log(request.file)
+    const result = await cloudinary.v2.uploader.upload(request.file.path)
+    
     const newAvatar = {
-      avatar: request.file.path
+      avatar: result.url
     };
     
     await Avatar.findByIdAndUpdate(id, newAvatar, {new: true} )
