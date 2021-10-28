@@ -1,5 +1,11 @@
 const jwt = require('jsonwebtoken')
 const multer  = require('../libs/multer.js')
+const cloudinary = require('cloudinary')
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+})
 
 const bannersRouter = require('express').Router()
 const Banner = require('../models/Banner')
@@ -79,8 +85,10 @@ bannersRouter.route('/:id').put( multer.single('bannerImg'), async (request, res
     const { id } = request.params
     const {bannerImg} = request.body
     console.log(request.file)
+    const result = await cloudinary.v2.uploader.upload(request.file.path)
+
     const newBannerImg = {
-      bannerImg: request.file.path
+      bannerImg: result.url
     };
     
     await Banner.findByIdAndUpdate(id, newBannerImg, {new: true} )
