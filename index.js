@@ -23,7 +23,7 @@ const app = express()
 const server = http.createServer(app)
 const io = socketio(server, {
   cors:{
-    origin: "https://origaming-frontend.herokuapp.com/",    
+    origin: "https://origaming-frontend.herokuapp.com",    
     methods: ["GET", "POST"],
     allowedHeaders: ["chat-header"],    
     credentials: true
