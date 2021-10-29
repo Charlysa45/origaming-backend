@@ -14,6 +14,9 @@ const loginRouter = require('./controllers/login.js')
 
 const gamesRoute = require('./controllers/games.js')
 const matchesRoute = require('./controllers/matches.js')
+const teamsRouter = require('./controllers/teams.js')
+const teamAvatarsRouter = require('./controllers/teamAvatars.js')
+const teamBannersRouter = require('./controllers/teamBanners.js')
 
 const app = express()
 
@@ -91,6 +94,9 @@ app.use('/api/banners', bannersRouter)
 
 app.use('/api/games', gamesRoute)
 app.use('/api/matches', matchesRoute)
+app.use('/api/teams', teamsRouter)
+app.use('/api/teamAvatars', teamAvatarsRouter)
+app.use('/api/teamBanners', teamBannersRouter)
 
 
 const PORT = process.env.PORT || 3001

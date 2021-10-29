@@ -3,6 +3,8 @@ const jwt = require('jsonwebtoken')
 const usersRouter = require('express').Router()
 const User = require('../models/User')
 
+const transporter = require('../config/mailer')
+
 usersRouter.get('/', async(request, response) =>{
     const users = await User.find({}).populate('profile avatar bannerImg matches')
     response.json(users)
@@ -34,10 +36,24 @@ usersRouter.get('/:id', (request, response) => {
 
 usersRouter.post('/', async (request, response) => {
     const {body} = request
-    const {username, email, password} = body
+    console.log(body)
+    const {username, email, password, confirmCode} = body
 
     const saltRounds = 10
     const passwordHash = await bcrypt.hash(password, saltRounds)
+
+    try {
+      await transporter.sendMail({
+        from: '"Origaming" <megamatr3x@gmail.com>',
+        to: email,
+        subject: 'Correo de verificación de cuenta',
+        html: `<p>¡Bienvenid@ a Origaming, ${username}, para verificar la validez de tu correo, te hemos enviado un cógico de comprobación el cual deberás digitar en nuestra web.</p><br><h2>Código de verificación: ${confirmCode}</h2>`
+
+      })
+    } catch (error) {
+      console.error(error)
+    }
+
     const user = new User({
         username,
         email,
@@ -55,6 +71,8 @@ usersRouter.post('/', async (request, response) => {
         {
             expiresIn: 60 * 60 * 24 
         })
+
+    //enviar correos
 
     await user.save()
 

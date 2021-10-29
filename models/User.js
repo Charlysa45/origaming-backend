@@ -24,6 +24,10 @@ const userSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Match'
     }],
+    team: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Team'
+    }]
 })
 
 userSchema.set('toJSON', {
