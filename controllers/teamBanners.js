@@ -27,7 +27,7 @@ TeamBanner.findById(id).populate('team')
     response.status(404).end()
     }
 }).catch(err => {
-    next(err)
+    console.error(err);
 })
 
 })  
@@ -71,7 +71,7 @@ try {
 }
 }) 
 
-teamBannersRouter.route('/:id').put( multer.single('bannerImg'), async (request, response, next) => {
+teamBannersRouter.route('/:id').put( multer.single('teamBannerImg'), async (request, response, next) => {
 
     const { id } = request.params
     const {bannerImg} = request.body
@@ -79,10 +79,10 @@ teamBannersRouter.route('/:id').put( multer.single('bannerImg'), async (request,
     const result = await cloudinary.v2.uploader.upload(request.file.path)
 
     const newBannerImg = {
-      bannerImg: result.url
+      teamBannerImg: result.url
     };
     
-    await Banner.findByIdAndUpdate(id, newBannerImg, {new: true} )
+    await TeamBanner.findByIdAndUpdate(id, newBannerImg, {new: true} )
     .then(res => {
       response.json(res)
     })

@@ -14,8 +14,12 @@ const teamSchema = new Schema({
     }],
     teamBannerImg: [{
         type: Schema.Types.ObjectId,
-        ref: 'TeamBannerImg'
-    }]
+        ref: 'TeamBanner'
+    }],
+    members: {
+        type: Array,
+        default: []
+    }
 })
 
 teamSchema.set('toJSON', {

@@ -72,18 +72,18 @@ try {
 }
 }) 
 
-teamAvatarsRouter.route('/:id').put( multer.single('avatar'), async (request, response, next) => {
+teamAvatarsRouter.route('/:id').put( multer.single('teamAvatar'), async (request, response, next) => {
 
     const { id } = request.params
-    const {avatar} = request.body
+    const {teamAvatar} = request.body
     console.log(request.file)
     const result = await cloudinary.v2.uploader.upload(request.file.path)
     
     const newAvatar = {
-      avatar: result.url
+      teamAvatar: result.url
     };
     
-    await Avatar.findByIdAndUpdate(id, newAvatar, {new: true} )
+    await TeamAvatar.findByIdAndUpdate(id, newAvatar, {new: true} )
     .then(res => {
       response.json(res)
     })

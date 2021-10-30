@@ -6,14 +6,14 @@ const jwt = require('jsonwebtoken')
 const multer  = require('../libs/multer.js')
 
 teamsRouter.get('/', async (request, response) => {
-    const teams = await Team.find({}).populate('teamLeader teamAvatar')
+    const teams = await Team.find({}).populate('teamLeader teamAvatar teamBannerImg')
     response.json(teams)
   })
   
   teamsRouter.get('/:id', (request, response) => {
     const { id } = request.params
     
-    Team.findById(id).populate('teamLeader')
+    Team.findById(id).populate('teamLeader teamAvatar teamBannerImg')
   .then(user =>{
       if (user) {
         response.json(user)
@@ -69,24 +69,45 @@ teamsRouter.get('/', async (request, response) => {
     }
     }) 
   
-  teamsRouter.route('/:id').put( multer.single('avatar'), async (request, response, next) => {
+  teamsRouter.route('/:id').put( async (request, response, next) => {
   
     const { id } = request.params
-    const {bannerImg, description, country, favGame, rankGame} = request.body
-    console.log(id)
+    const {gameChoosed, description} = request.body
+    const team = await Team.findById(id)
   
-    const newProfileInfo = {
-      bannerImg,
-      description,
-      country,
-      favGame,
-      rankGame
+    const newTeamProfileInfo = {
+      gameChoosed,
+      description
     };
     
-    await UserProfile.findByIdAndUpdate(id, newProfileInfo, {new: true} )
+    await Team.findByIdAndUpdate(id, newTeamProfileInfo, {new: true} )
     .then(res => {
       response.json(res)
     })
+    })
+
+  teamsRouter.route('/:id/follow').put( async (request, response, next) => {
+    const TeamId = request.params.id
+    console.log(TeamId)
+    const  {memberId}  = request.body
+    console.log(memberId)
+    if(!TeamId !== memberId){
+      try {
+        const team = await Team.findById(TeamId)
+        const currentUser = await User.findById(memberId)
+        if (!team.members.includes(memberId)) {
+          await team.updateOne({$push: {members: memberId}})
+          response.status(200).json('Bien! usuario seguido')
+        } else {
+          response.status(403).json('Nope, ya esta registrado')
+        }
+
+      } catch (error) {
+        response.status(500).json(error)
+      }
+    }else{
+      response.status(403).json('Bruh')
+    }
     })
     
     module.exports = teamsRouter
